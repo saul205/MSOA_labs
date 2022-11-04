@@ -49,7 +49,8 @@ void Mesh::activate() {
         m_pdf.append(surfaceArea(i));
     }
 
-    m_pdf.normalize();
+    if(!m_pdf.isNormalized())
+        m_pdf.normalize();
 }
 
 float Mesh::surfaceArea(n_UINT index) const {
@@ -134,7 +135,7 @@ void Mesh::samplePosition(const Point2f &sample, Point3f &p, Normal3f &n, Point2
     p = p0 * delta[0] + p1 * delta[1] + p2 * delta[2];
 
     if(m_N.size() != 0){
-        n = (m_N.col(i0) * delta[0] + m_N.col(i1) * delta[1] + m_N.col(i2) * delta[2]).normalized(); 
+        n = (delta.x() * m_N.col(i0) + delta.y() * m_N.col(i1) + delta.z() * m_N.col(i2)).normalized(); 
     }else
     {
         n = (p1 - p0).cross(p2 - p0).normalized();
@@ -142,7 +143,7 @@ void Mesh::samplePosition(const Point2f &sample, Point3f &p, Normal3f &n, Point2
     
     if(m_UV.size() != 0){
 
-        uv = m_UV.col(i0) * delta[0] + m_UV.col(i1) * delta[1] + m_UV.col(i2) * delta[2]; 
+        uv = delta.x() * m_UV.col(i0) + delta.y() * m_UV.col(i1) + delta.z() * m_UV.col(i2); 
     }
     
 }
@@ -150,7 +151,7 @@ void Mesh::samplePosition(const Point2f &sample, Point3f &p, Normal3f &n, Point2
 /// Return the surface area of the given triangle
 float Mesh::pdf(const Point3f &p) const
 {
-	return 1 / m_pdf.getNormalization();
+	return m_pdf.getNormalization();
 }
 
 

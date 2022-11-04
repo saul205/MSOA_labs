@@ -60,7 +60,7 @@ public:
 
 		m_mesh->samplePosition(sample, lRec.p, lRec.n, lRec.uv);
         lRec.dist = (lRec.p - lRec.ref).norm();
-        lRec.wi = ((lRec.p - lRec.ref) / lRec.dist).normalized();
+        lRec.wi = (lRec.p - lRec.ref) / lRec.dist;
 		lRec.pdf = pdf(lRec);
 
 		return eval(lRec);

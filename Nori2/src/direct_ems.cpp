@@ -26,7 +26,7 @@ public:
         
         float rnd = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 
-        const Emitter* emit = scene->sampleDirect(rnd, pdflight);
+        const Emitter* emit = scene->sampleEmitter(rnd, pdflight);
 
         Color3f Le = emit->sample(emitterRecord, sampler->next2D(), 0.);
         
@@ -44,8 +44,7 @@ public:
         if (its.mesh->isEmitter()) {
             const Emitter* em = its.mesh->getEmitter();
             EmitterQueryRecord emRecord(em, ray.o, its.p, its.shFrame.n, its.uv);
-            Color3f lightLe = em->eval(emRecord);
-            Lo += lightLe;
+            Lo += em->eval(emRecord);
         }
 
         return Lo;

@@ -25,6 +25,7 @@
 #include <nori/sampler.h>
 #include <nori/camera.h>
 #include <nori/emitter.h>
+#include <numeric>
 
 NORI_NAMESPACE_BEGIN
 
@@ -38,6 +39,7 @@ Scene::~Scene() {
     delete m_sampler;
     delete m_camera;
     delete m_integrator;
+    delete impSampling;
 }
 
 void Scene::activate() {
@@ -61,6 +63,18 @@ void Scene::activate() {
             NoriObjectFactory::createInstance("independent", PropertyList()));
     }
 
+    std::vector<float> luminances(m_emitters.size());
+    Point3f refPoint;
+    EmitterQueryRecord emitterRecord(refPoint);
+    impSampling = new DiscretePDF(m_emitters.size());
+
+    for(auto i : m_emitters){
+        impSampling->append(i->sample(emitterRecord, Point2f(), 0.0f).getLuminance());
+    }
+    
+    if(!impSampling->isNormalized())
+        impSampling->normalize();
+
     cout << endl;
     cout << "Configuration: " << toString() << endl;
     cout << endl;
@@ -71,6 +85,12 @@ const Emitter * Scene::sampleEmitter(float rnd, float &pdf) const {
 	auto const & n = m_emitters.size();
 	size_t index = std::min(static_cast<size_t>(std::floor(n*rnd)), n - 1);
 	pdf = 1. / float(n);
+	return m_emitters[index];
+}
+
+const Emitter * Scene::sampleDirect(float rnd, float &pdf) const {
+    size_t index = impSampling->sample(rnd);
+	pdf = (*impSampling)[index];
 	return m_emitters[index];
 }
 

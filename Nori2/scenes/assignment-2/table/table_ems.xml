@@ -101,4 +101,9 @@
 		</bsdf>
 	</mesh>
 
+	<emitter type="pointlight">
+		<color name="radiance" value="12, 3, 3"/>
+		<point name="position" value="-4, 4, 0"/>
+	</emitter>
+
 </scene>

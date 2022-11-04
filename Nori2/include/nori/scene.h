@@ -22,6 +22,7 @@
 #pragma once
 
 #include <nori/accel.h>
+#include <random>
 
 NORI_NAMESPACE_BEGIN
 
@@ -69,6 +70,8 @@ public:
 
 	/// Sample emitter
 	const Emitter *sampleEmitter(float rnd, float &pdf) const;
+
+    const Emitter *sampleDirect(float rnd, float &pdf) const;
 
     float pdfEmitter(const Emitter *em) const;
 
@@ -140,6 +143,8 @@ private:
     std::vector<Mesh *> m_meshes;
 	std::vector<Emitter *> m_emitters;
 	Emitter *m_enviromentalEmitter = nullptr;
+
+    DiscretePDF *impSampling = nullptr;
 	
     Integrator *m_integrator = nullptr;
     Sampler *m_sampler = nullptr;

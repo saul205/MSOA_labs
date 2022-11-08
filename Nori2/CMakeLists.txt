@@ -58,6 +58,7 @@ add_executable(nori
   include/nori/parser.h
   include/nori/proplist.h
   include/nori/ray.h
+  include/nori/reflectance.h
   include/nori/rfilter.h
   include/nori/sampler.h
   include/nori/scene.h
@@ -88,14 +89,14 @@ add_executable(nori
   src/parser.cpp
   src/perspective.cpp
   src/proplist.cpp
+  src/reflectance.cpp
   src/rfilter.cpp
   src/scene.cpp
   src/texture.cpp
   src/ttest.cpp
   src/warp.cpp
-  src/normals.cpp
-  src/pointlight.cpp
   src/direct_whitted.cpp
+  src/pointlight.cpp
   src/direct_ems.cpp
 )
 
@@ -110,6 +111,7 @@ add_executable(warptest
   src/object.cpp
   src/proplist.cpp
   src/common.cpp
+  src/reflectance.cpp
 )
 
 if (WIN32)

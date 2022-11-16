@@ -50,9 +50,18 @@ public:
             || Frame::cosTheta(bRec.wi) <= 0
             || Frame::cosTheta(bRec.wo) <= 0)
             return Color3f(0.0f);
-
         
-        throw NoriException("RoughConductor::eval() is not yet implemented!");
+        Vector3f wh = (bRec.wi + bRec.wo).normalized();
+        if(wh[0] == 0 && wh[1] == 0 && wh[2] == 0)
+            return Color3f(0.0f);
+        
+        float alpha = m_alpha->eval(bRec.uv).x();
+        Color3f f = Reflectance::BeckmannNDF(wh, alpha)
+            * Reflectance::fresnel(wh.dot(bRec.wo), m_R0->eval(bRec.uv)) 
+            * Reflectance::G1(bRec.wi, wh, alpha) * Reflectance::G1(bRec.wo, wh, alpha)
+            / (4 * abs(Frame::cosTheta(bRec.wi) * Frame::cosTheta(bRec.wo)));
+
+        return f;
     }
 
     /// Evaluate the sampling density of \ref sample() wrt. solid angles
@@ -64,7 +73,7 @@ public:
             || Frame::cosTheta(bRec.wo) <= 0)
             return 0.0f;
 
-        throw NoriException("RoughConductor::eval() is not yet implemented!");
+        return Warp::squareToBeckmannPdf(bRec.wo, m_alpha->eval(bRec.uv).x());
     }
 
     /// Sample the BRDF
@@ -78,8 +87,11 @@ public:
             return Color3f(0.0f);
 
         bRec.measure = ESolidAngle;
+        float alpha = m_alpha->eval(bRec.uv).x();
+        Vector3f wo = Warp::squareToBeckmann(_sample, alpha);
+        bRec.eta = 1.0f;
 
-        throw NoriException("RoughConductor::sample() is not yet implemented!");
+        return eval(bRec) * Frame::cosTheta(bRec.wo) / pdf(bRec);
     }
 
     bool isDiffuse() const {
@@ -254,8 +266,21 @@ public:
             || Frame::cosTheta(bRec.wo) <= 0)
             return Color3f(0.0f);
 
+        
+        Color3f fdiff = 28 * m_kd->eval(bRec.uv) / (23 * M_PIf)
+            * (1 - pow( (m_extIOR - m_intIOR) / (m_extIOR + m_intIOR), 2))
+            * (1 - pow( 1 - 0.5 * Frame::cosTheta(bRec.wi), 5)) 
+            * (1 - pow( 1 - 0.5 * Frame::cosTheta(bRec.wo), 5)); 
+        
+        Vector3f wh = (bRec.wi + bRec.wo).normalized();
+        float alpha = m_alpha->eval(bRec.uv).x();
+        Color3f fmf = Reflectance::BeckmannNDF(wh, alpha)
+            * Reflectance::fresnel(wh.dot(bRec.wo), m_extIOR, m_intIOR) 
+            * Reflectance::G1(bRec.wi, wh, alpha) * Reflectance::G1(bRec.wo, wh, alpha)
+            / (4 * Frame::cosTheta(bRec.wi) * Frame::cosTheta(bRec.wo));
 
-		throw NoriException("RoughSubstrate::eval() is not yet implemented!");
+
+		return fmf + fdiff;
 	}
 
     /// Evaluate the sampling density of \ref sample() wrt. solid angles
@@ -267,7 +292,12 @@ public:
             || Frame::cosTheta(bRec.wo) <= 0)
             return 0.0f;
 
-		throw NoriException("RoughSubstrate::eval() is not yet implemented!");
+        float pf = Reflectance::fresnel(Frame::cosTheta(bRec.wi), m_extIOR, m_intIOR);
+        if(bRec.eta <= pf){
+            return  Warp::squareToBeckmannPdf(bRec.wo, m_alpha->eval(bRec.uv).x()) * pf;
+        }else{
+            return  Warp::squareToCosineHemispherePdf(bRec.wo) * (1 - pf);
+        }
     }
 
     /// Sample the BRDF
@@ -282,7 +312,22 @@ public:
 
         bRec.measure = ESolidAngle;
 
-		throw NoriException("RoughSubstrate::sample() is not yet implemented!");
+        Vector3f mf = Warp::squareToBeckmann(_sample, m_alpha->eval(bRec.uv).x());
+        
+        float pf = Reflectance::fresnel(Frame::cosTheta(bRec.wi), m_extIOR, m_intIOR);
+        float rnd = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+
+        pf = 0;
+
+        if(rnd <= pf){
+            bRec.wo = Warp::squareToBeckmann(_sample, m_alpha->eval(bRec.uv).x());
+        }else{
+            bRec.wo = Warp::squareToCosineHemisphere(_sample);
+        }
+
+        bRec.eta = rnd;
+
+		return eval(bRec) * Frame::cosTheta(bRec.wo) / pdf(bRec);
 	}
 
     bool isDiffuse() const {

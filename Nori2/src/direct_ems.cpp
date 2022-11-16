@@ -24,7 +24,7 @@ public:
         // Get all lights in the scene
         const std::vector<Emitter*> lights = scene->getLights();
         
-        float rnd = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float rnd = sampler->next1D();
 
         const Emitter* emit = scene->sampleEmitter(rnd, pdflight);
 

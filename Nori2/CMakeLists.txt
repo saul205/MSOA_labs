@@ -98,6 +98,7 @@ add_executable(nori
   src/direct_whitted.cpp
   src/pointlight.cpp
   src/direct_ems.cpp
+  src/direct_mats.cpp
 )
 
 add_definitions(${NANOGUI_EXTRA_DEFS})

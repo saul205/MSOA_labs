@@ -73,7 +73,9 @@ public:
             || Frame::cosTheta(bRec.wo) <= 0)
             return 0.0f;
 
-        return Warp::squareToBeckmannPdf(bRec.wo, m_alpha->eval(bRec.uv).x());
+        Vector3f wh = (bRec.wi + bRec.wo).normalized();    
+
+        return Warp::squareToBeckmannPdf(wh, m_alpha->eval(bRec.uv).x());
     }
 
     /// Sample the BRDF
@@ -88,10 +90,18 @@ public:
 
         bRec.measure = ESolidAngle;
         float alpha = m_alpha->eval(bRec.uv).x();
-        Vector3f wo = Warp::squareToBeckmann(_sample, alpha);
+        Vector3f wh = Warp::squareToBeckmann(_sample, alpha);
         bRec.eta = 1.0f;
 
-        return eval(bRec) * Frame::cosTheta(bRec.wo) / pdf(bRec);
+        if(wh.dot(bRec.wi) > 0)
+            wh = -wh;
+        bRec.wo = Reflectance::reflect(bRec.wi, wh);
+
+        float p = pdf(bRec);
+        if(p <= 0)
+            return Color3f(0.0f);
+
+        return eval(bRec) * Frame::cosTheta(bRec.wo) / p;
     }
 
     bool isDiffuse() const {
@@ -266,7 +276,6 @@ public:
             || Frame::cosTheta(bRec.wo) <= 0)
             return Color3f(0.0f);
 
-        
         Color3f fdiff = 28 * m_kd->eval(bRec.uv) / (23 * M_PIf)
             * (1 - pow( (m_extIOR - m_intIOR) / (m_extIOR + m_intIOR), 2))
             * (1 - pow( 1 - 0.5 * Frame::cosTheta(bRec.wi), 5)) 
@@ -291,13 +300,13 @@ public:
             || Frame::cosTheta(bRec.wi) <= 0
             || Frame::cosTheta(bRec.wo) <= 0)
             return 0.0f;
-
+        
+        Vector3f wh = (bRec.wi + bRec.wo).normalized();
         float pf = Reflectance::fresnel(Frame::cosTheta(bRec.wi), m_extIOR, m_intIOR);
-        if(bRec.eta <= pf){
-            return  Warp::squareToBeckmannPdf(bRec.wo, m_alpha->eval(bRec.uv).x()) * pf;
-        }else{
-            return  Warp::squareToCosineHemispherePdf(bRec.wo) * (1 - pf);
-        }
+
+        return  (Warp::squareToBeckmannPdf(wh, m_alpha->eval(bRec.uv).x()) * pf 
+            +  Warp::squareToCosineHemispherePdf(bRec.wo) * (1 - pf));
+
     }
 
     /// Sample the BRDF
@@ -312,22 +321,24 @@ public:
 
         bRec.measure = ESolidAngle;
 
-        Vector3f mf = Warp::squareToBeckmann(_sample, m_alpha->eval(bRec.uv).x());
+        Vector3f wh = Warp::squareToBeckmann(_sample, m_alpha->eval(bRec.uv).x());
         
         float pf = Reflectance::fresnel(Frame::cosTheta(bRec.wi), m_extIOR, m_intIOR);
-        float rnd = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+        float sample = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 
-        pf = 0;
-
-        if(rnd <= pf){
-            bRec.wo = Warp::squareToBeckmann(_sample, m_alpha->eval(bRec.uv).x());
+        if(sample <= pf){
+            bRec.wo = Reflectance::reflect(bRec.wi, wh);
         }else{
             bRec.wo = Warp::squareToCosineHemisphere(_sample);
         }
 
-        bRec.eta = rnd;
+        bRec.eta = 1.0f;
 
-		return eval(bRec) * Frame::cosTheta(bRec.wo) / pdf(bRec);
+        if(pdf(bRec) == 0)
+            return Color3f(0.);
+
+        Color3f Lo = eval(bRec) * Frame::cosTheta(bRec.wo) / pdf(bRec);
+		return Lo;
 	}
 
     bool isDiffuse() const {
@@ -375,7 +386,7 @@ public:
         );
     }
 private:
-    float m_intIOR, m_extIOR;
+    float m_intIOR, m_extIOR, pFresnel;
     Texture* m_alpha;
     Texture* m_kd;
 };

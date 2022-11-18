@@ -35,6 +35,7 @@ namespace Reflectance {
 	 */
 	extern Vector3f refract(const Vector3f& wi, const Vector3f& n, float extIOR, float intIOR);
 
+	extern Vector3f reflect(const Vector3f& wi, const Vector3f& n);
 	/**
 	 * \brief Calculates the unpolarized fresnel reflection coefficient for a
 	 * dielectric material. Handles incidence from either side (i.e.

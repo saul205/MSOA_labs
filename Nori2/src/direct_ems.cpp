@@ -34,7 +34,7 @@ public:
         Intersection it_shadow;
         if (scene->rayIntersect(sray, it_shadow))
             if (it_shadow.t < (emitterRecord.dist - 1.e-5))
-                return Color3f{0, 0, 0};
+                return Color3f(0.);
 
         BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d),
             its.toLocal(emitterRecord.wi), its.uv, ESolidAngle);

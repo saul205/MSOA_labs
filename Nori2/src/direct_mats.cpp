@@ -22,16 +22,19 @@ public:
 
         BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d));
         Color3f bsdf = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
-        Color3f Le{0, 0, 0};
+        Color3f Le(0.);
         Intersection next_its;
-        Ray3f wo(its.p, bsdfRecord.wo);
+        Ray3f wo(its.p, its.toWorld(bsdfRecord.wo));
         if (!scene->rayIntersect(wo, next_its)){
             // Return BSDF with Background
             Le = scene->getBackground(wo);
+
+            if(isnan(Le.x()))
+                Le = Color3f(0.);
         }
         else if(next_its.mesh->isEmitter()){
             const Emitter* em = next_its.mesh->getEmitter();
-            EmitterQueryRecord emRecord(em, wo.o, next_its.p, next_its.shFrame.n, next_its.uv);
+            EmitterQueryRecord emRecord(em, its.p, next_its.p, next_its.shFrame.n, next_its.uv);
             Le = em->eval(emRecord);
         }
 

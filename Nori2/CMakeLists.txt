@@ -99,6 +99,7 @@ add_executable(nori
   src/pointlight.cpp
   src/direct_ems.cpp
   src/direct_mats.cpp
+  src/direct_mis.cpp
 )
 
 add_definitions(${NANOGUI_EXTRA_DEFS})

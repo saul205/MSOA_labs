@@ -100,13 +100,17 @@ Vector3f Warp::squareToCosineHemisphere(const Point2f &sample) {
 float Warp::squareToCosineHemispherePdf(const Vector3f &v) {
 
     float phi = atan(sqrt(v.x()*v.x() + v.y()*v.y()) / v.z());
-    return (v.array() >= -1 && v.array() <= 1).all() && v.z() >= 0 ? cos(phi) / M_PIf : 0;
+    return (v.array() >= -1 && v.array() <= 1).all() && v.z() >= 0 ? cos(phi) / M_PIf : 0.;
 }
 
 Vector3f Warp::squareToBeckmann(const Point2f &sample, float alpha) {
     float alpha_squared = pow(alpha, 2);
     float theta = 2*M_PIf*sample.x();
-    float phi = atan(sqrt(-alpha_squared*log(1 - sample.y())));
+
+    float logSample = log(1 - sample.y());
+    if(std::isinf(logSample)) logSample = 0;
+
+    float phi = atan(sqrt(-alpha_squared*logSample));
     return Vector3f(cos(theta)*sin(phi), sin(theta)*sin(phi), cos(phi));
 }
 
@@ -115,7 +119,7 @@ float Warp::squareToBeckmannPdf(const Vector3f &m, float alpha) {
     float alpha_squared = pow(alpha, 2);
     float phi = atan(sqrt(m.x()*m.x() + m.y()*m.y()) / m.z());
     float pdf = exp(-pow(tan(phi), 2) / alpha_squared) / ( M_PIf * alpha_squared * pow(cos(phi), 3));
-    return (m.array() >= -1 && m.array() <= 1).all() && m.z() >= 0 ? pdf: 0;
+    return (m.array() >= -1 && m.array() <= 1).all() && m.z() >= 0 ? pdf: 0.;
 }
 
 NORI_NAMESPACE_END

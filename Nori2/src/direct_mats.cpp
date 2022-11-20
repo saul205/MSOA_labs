@@ -20,7 +20,7 @@ public:
         if (!scene->rayIntersect(ray, its))
             return scene->getBackground(ray);
 
-        BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d));
+        BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d), its.uv);
         Color3f bsdf = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
         Color3f Le(0.);
         Intersection next_its;

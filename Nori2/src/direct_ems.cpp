@@ -1,4 +1,4 @@
-#include <nori/warp.h>
+﻿#include <nori/warp.h>
 #include <nori/integrator.h>
 #include <nori/scene.h>
 #include <nori/emitter.h>
@@ -21,31 +21,30 @@ public:
             return scene->getBackground(ray);
         float pdflight;
         EmitterQueryRecord emitterRecord(its.p);
-        // Get all lights in the scene
-        const std::vector<Emitter*> lights = scene->getLights();
         
         float rnd = sampler->next1D();
 
         const Emitter* emit = scene->sampleEmitter(rnd, pdflight);
+        emitterRecord.emitter = emit;
 
         Color3f Le = emit->sample(emitterRecord, sampler->next2D(), 0.);
-        
-        Ray3f sray(its.p, emitterRecord.wi);
-        Intersection it_shadow;
-        if (scene->rayIntersect(sray, it_shadow))
-            if (it_shadow.t < (emitterRecord.dist - 1.e-5))
-                return Color3f(0.);
-
-        BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d),
-            its.toLocal(emitterRecord.wi), its.uv, ESolidAngle);
-
-        Lo = Le * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord) / (pdflight * emitterRecord.pdf);
 
         if (its.mesh->isEmitter()) {
             const Emitter* em = its.mesh->getEmitter();
             EmitterQueryRecord emRecord(em, ray.o, its.p, its.shFrame.n, its.uv);
             Lo += em->eval(emRecord);
         }
+        
+        Ray3f sray(its.p, emitterRecord.wi);
+        Intersection it_shadow;
+        if (scene->rayIntersect(sray, it_shadow))
+            if (it_shadow.t < (emitterRecord.dist - 1.e-5))
+                return Lo;
+
+        BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d),
+            its.toLocal(emitterRecord.wi), its.uv, ESolidAngle);
+
+        Lo += Le * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord) / (pdflight * emitterRecord.pdf);
 
         return Lo;
     }

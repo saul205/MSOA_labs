@@ -91,13 +91,19 @@ public:
             Le = scene->getBackground(wo);
             if(isnan(Le.x()))
                 Le = Color3f(0.);
-            emPdf = 1.f;   
+
+            const Emitter* emEnv = scene->getEnvironmentalEmitter();
+            if(emEnv != nullptr){
+                EmitterQueryRecord emitter_intersection(
+					emEnv, wo.o, next_its.p, next_its.shFrame.n, next_its.uv);
+                emPdf = scene->pdfEmitter(emEnv) * emEnv->pdf(emitter_intersection);  
+            }
         }
         else if(next_its.mesh->isEmitter()){ // Intersected Emitter
             // Emitter light
             const Emitter* em = next_its.mesh->getEmitter();
             EmitterQueryRecord emRecord(em, its.p, next_its.p, next_its.shFrame.n, next_its.uv);
-            emPdf = em->pdf(emRecord);
+            emPdf = em->pdf(emRecord) * scene->pdfEmitter(em);
             Le = em->eval(emRecord);
         }
 

@@ -14,41 +14,28 @@ public:
     }
     Color3f Li(const Scene* scene, Sampler* sampler, const Ray3f &ray) const
     {
-        Color3f Lo(0.);
+        // Find the surface that is visible in the requested direction
         Intersection its;
-        Ray3f iteRay(ray);
-        Color3f Le(0.);
-        Color3f bsdf(1.);
-        while(true){
+        if (!scene->rayIntersect(ray, its))
+            return scene->getBackground(ray);
+        else if (its.mesh->isEmitter()) {
+            const Emitter* em = its.mesh->getEmitter();
+            EmitterQueryRecord emRecord(em, ray.o, its.p, its.shFrame.n, its.uv);
+            return em->eval(emRecord);
+        }
 
-            if (!scene->rayIntersect(iteRay, its)) //Return environment
-                return scene->getBackground(ray) * bsdf;
-            else if(its.mesh->isEmitter()){
-                const Emitter* em = its.mesh->getEmitter();
-                EmitterQueryRecord emRecord(em, iteRay.o, its.p, its.shFrame.n, its.uv);
-                Le = em->eval(emRecord);
+        BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d), its.uv);
+        Color3f bsdf = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+        Ray3f wo(its.p, its.toWorld(bsdfRecord.wo));
 
-                return Le * bsdf;
-            }
-
-            //Sample BSDF
-            BSDFQueryRecord bsdfRecord(its.toLocal(-iteRay.d), its.uv);
-            bsdf *= its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
-
-            // update ray
-            iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
-
-            float prob = 1 - its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
-            // update ray
-            iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
-            if(sampler->next1D() < 1 - prob){
-                return Color3f(0.);
-            }
-
-            bsdf /= prob;
+        float prob = 1- its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
+        if(sampler->next1D() < 1 - prob){
+            return Color3f(0.);
         }
         
-        return Lo;
+        bsdf /= prob;
+
+        return bsdf * Li(scene, sampler, wo);
     }
     std::string toString() const
     {

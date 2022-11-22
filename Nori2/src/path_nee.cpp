@@ -14,78 +14,60 @@ public:
     }
     Color3f Li(const Scene* scene, Sampler* sampler, const Ray3f &ray) const
     {
-        Color3f Lo(0.);
+        return Li_rec(scene, sampler, ray, 0, false);
+    }
+
+    Color3f Li_rec(const Scene* scene, Sampler* sampler, const Ray3f &ray, int bounce, bool isSpecular) const
+    {
+        // Find the surface that is visible in the requested direction
         Intersection its;
-        Ray3f iteRay(ray);
-        Color3f Le(0.);
-        Color3f bsdf(1.);
-        float probs = 1;
+        if (!scene->rayIntersect(ray, its)){
 
-        if (!scene->rayIntersect(iteRay, its)) //Return environment
-            return (Le + scene->getBackground(ray)) * bsdf;
-        else if(its.mesh->isEmitter()){
-            const Emitter* em = its.mesh->getEmitter();
-            EmitterQueryRecord emRecord(em, iteRay.o, its.p, its.shFrame.n, its.uv);
-            Le += em->eval(emRecord);
+            if(isSpecular || bounce == 0)
+                return scene->getBackground(ray);
 
-            return Le * bsdf;
+            return Color3f(0.);
+        }
+        else if (its.mesh->isEmitter()) {
+
+            if(isSpecular || bounce == 0){
+                const Emitter* em = its.mesh->getEmitter();
+                EmitterQueryRecord emRecord(em, ray.o, its.p, its.shFrame.n, its.uv);
+                return em->eval(emRecord);
+            }
+
+            return Color3f(0.);
         }
 
-        while(true){
-            
-            //Sample BSDF
-            BSDFQueryRecord bsdfRecord(its.toLocal(-iteRay.d), its.uv);
-            Color3f new_bsdf = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+        Color3f Le(0.);
+        float pdflight;
+        EmitterQueryRecord emitterRecord(its.p);
+        const Emitter* emit = scene->sampleDirect(sampler->next1D(), pdflight);
+        emitterRecord.emitter = emit;
+        Color3f Le_emit = emit->sample(emitterRecord, sampler->next2D(), 0.);
+        BSDFQueryRecord bsdfRecord_emit(its.toLocal(-ray.d),
+            its.toLocal(emitterRecord.wi), its.uv, ESolidAngle);
 
-            if(bsdfRecord.measure != EDiscrete){
-                // Emitter sampling for NEE
-                float pdflight;
-                EmitterQueryRecord emitterRecord(its.p);
-                float rnd = sampler->next1D();
-                const Emitter* emit = scene->sampleEmitter(rnd, pdflight);
-                emitterRecord.emitter = emit;
-                Color3f Le_sample = emit->sample(emitterRecord, sampler->next2D(), 0.);
+        Ray3f sray(its.p, emitterRecord.wi);
+        Intersection it_shadow;
+        if (scene->rayIntersect(sray, it_shadow))
+            if (it_shadow.t >= (emitterRecord.dist - 1.e-5))
+                Le = Le_emit * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord_emit) / (pdflight * emitterRecord.pdf);
 
-                Ray3f sray(its.p, emitterRecord.wi);
-                Intersection it_shadow;
-                if (scene->rayIntersect(sray, it_shadow) && it_shadow.t >= (emitterRecord.dist - 1.e-5)){
-                    BSDFQueryRecord bsdfRecord_emit(its.toLocal(-iteRay.d),
-                    its.toLocal(emitterRecord.wi), its.uv, ESolidAngle);
-                    Le += bsdf * Le_sample * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord_emit) / (pdflight * emitterRecord.pdf);
-                }
-            }
+        BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d), its.uv);
+        Color3f bsdf = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+        Ray3f wo(its.p, its.toWorld(bsdfRecord.wo));
 
-            float prob = 1 - its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
-            // update ray
-            iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
-            if(sampler->next1D() < 1 - prob){
-                return Color3f(0.);
-            }
-
-            bsdf /= prob;
-            bsdf *= new_bsdf;
-
-            if (!scene->rayIntersect(iteRay, its)){ //Return environment
-
-                if(bsdfRecord.measure == EDiscrete)
-                    return (Le + scene->getBackground(ray)) * bsdf;
-
-                return Le * bsdf;
-            }
-            else if(its.mesh->isEmitter()){
-                if(bsdfRecord.measure == EDiscrete){
-                    const Emitter* em = its.mesh->getEmitter();
-                    EmitterQueryRecord emRecord(em, iteRay.o, its.p, its.shFrame.n, its.uv);
-                    Le += em->eval(emRecord);
-
-                    return Le * bsdf;
-                }
-                return Le * bsdf;
-            }
+        float prob = 1 - its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
+        if(sampler->next1D() < 1 - prob){
+            return Color3f(0.);
         }
         
-        return Lo;
+        bsdf;
+
+        return (Le + bsdf * Li_rec(scene, sampler, wo, ++bounce, bsdfRecord.measure == EDiscrete)) / prob;
     }
+
     std::string toString() const
     {
         return "Direct Emitter Sampler []";

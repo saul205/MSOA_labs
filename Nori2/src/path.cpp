@@ -4,6 +4,7 @@
 #include <nori/emitter.h>
 #include <nori/bsdf.h>
 #include <random>
+#include <iostream>
 NORI_NAMESPACE_BEGIN
 class PathTracing : public Integrator
 {
@@ -27,15 +28,16 @@ public:
         BSDFQueryRecord bsdfRecord(its.toLocal(-ray.d), its.uv);
         Color3f bsdf = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
         Ray3f wo(its.p, its.toWorld(bsdfRecord.wo));
-
-        float prob = 1- its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
+        
+        float prob = bsdf.maxCoeff();
+        if(prob >= 1){
+            prob = 0.9;
+        }
         if(sampler->next1D() < 1 - prob){
             return Color3f(0.);
         }
-        
-        bsdf /= prob;
 
-        return bsdf * Li(scene, sampler, wo);
+        return bsdf * Li(scene, sampler, wo) / prob;
     }
     std::string toString() const
     {

@@ -58,12 +58,13 @@ public:
         Color3f bsdf = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
         Ray3f wo(its.p, its.toWorld(bsdfRecord.wo));
 
-        float prob = 1 - its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
+        float prob = bsdf.getLuminance();
+        if(prob >= 1){
+            prob = 0.9;
+        }
         if(sampler->next1D() < 1 - prob){
             return Color3f(0.);
         }
-        
-        bsdf;
 
         return (Le + bsdf * Li_rec(scene, sampler, wo, ++bounce, bsdfRecord.measure == EDiscrete)) / prob;
     }

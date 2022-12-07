@@ -156,6 +156,7 @@ static void render(Scene* scene, const std::string& filename, bool nogui) {
     if (lastdot != std::string::npos)
         outputName.erase(lastdot, std::string::npos);
 
+    outputName += "_" + std::to_string(scene->getSampler()->getSampleCount());
     /* Save using the OpenEXR format */
     bitmap->saveEXR(outputName);
 
@@ -171,6 +172,7 @@ int main(int argc, char **argv) {
 
     bool nogui = false;
     std::string sceneName = "";
+    int sampleCount = 0;
 
     for (int i = 1; i < argc; ++i) {
         std::string token(argv[i]);
@@ -183,6 +185,20 @@ int main(int argc, char **argv) {
             i++;
             if (threadCount <= 0) {
                 cerr << "\"--threads\" argument expects a positive integer following it." << endl;
+                return -1;
+            }
+
+            continue;
+        }
+        else if (token == "-s" || token == "--samples") {
+            if (i+1 >= argc) {
+                cerr << "\"--samples\" argument expects a positive integer following it." << endl;
+                return -1;
+            }
+            sampleCount = atoi(argv[i+1]);
+            i++;
+            if (sampleCount <= 0) {
+                cerr << "\"--samples\" argument expects a positive integer following it." << endl;
                 return -1;
             }
 
@@ -235,8 +251,14 @@ int main(int argc, char **argv) {
             std::unique_ptr<NoriObject> root(loadFromXML(argv[1]));
 
             /* When the XML root object is a scene, start rendering it .. */
-            if (root->getClassType() == NoriObject::EScene)
-                render(static_cast<Scene*>(root.get()), argv[1], nogui);
+            if (root->getClassType() == NoriObject::EScene){
+                Scene* scene = static_cast<Scene*>(root.get());
+                if(sampleCount > 0){
+                    scene->getSampler()->setSampleCount(sampleCount);
+                }
+                render(scene, argv[1], nogui);
+            }
+                
         }
         catch (const std::exception& e) {
             cerr << "[FATAL ERROR]: " << e.what() << endl;

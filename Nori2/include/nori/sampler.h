@@ -97,6 +97,8 @@ public:
     /// Return the number of configured pixel samples
     virtual size_t getSampleCount() const { return m_sampleCount; }
 
+    virtual void setSampleCount(int sampleCount) { m_sampleCount = sampleCount; }
+
     /**
      * \brief Return the type of object (i.e. Mesh/Sampler/etc.) 
      * provided by this instance

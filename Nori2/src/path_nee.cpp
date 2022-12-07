@@ -42,27 +42,30 @@ public:
             }
             
             Color3f Le_emiter(0.);
-            // Emitter sampling for NEE
-            float pdflight;
-            EmitterQueryRecord emitterRecord(its.p);
-            const Emitter* emit = scene->sampleEmitter(sampler->next1D(), pdflight);
-            emitterRecord.emitter = emit;
-            Color3f Le_em = emit->sample(emitterRecord, sampler->next2D(), 0.);
+            if(!isSpecular){ // Emitter sampling for NEE
+                
+                float pdflight;
+                EmitterQueryRecord emitterRecord(its.p);
+                const Emitter* emit = scene->sampleEmitter(sampler->next1D(), pdflight);
+                emitterRecord.emitter = emit;
+                Color3f Le_em = emit->sample(emitterRecord, sampler->next2D(), 0.);
 
-            Ray3f sray(its.p, emitterRecord.wi);
-            Intersection it_shadow;
-            if (scene->rayIntersect(sray, it_shadow))
-                if(it_shadow.t >= (emitterRecord.dist - 1.e-5)){
-                BSDFQueryRecord bsdfRecord_emit(its.toLocal(-iteRay.d),
-                    its.toLocal(emitterRecord.wi), its.uv, ESolidAngle);
-                Le_emiter = Le_em * bsdf * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord_emit) / (pdflight * emitterRecord.pdf);
+                Ray3f sray(its.p, emitterRecord.wi);
+                Intersection it_shadow;
+                if (scene->rayIntersect(sray, it_shadow))
+                    if(it_shadow.t >= (emitterRecord.dist - 1.e-5)){
+                    BSDFQueryRecord bsdfRecord_emit(its.toLocal(-iteRay.d),
+                        its.toLocal(emitterRecord.wi), its.uv, ESolidAngle);
+                    Le_emiter = Le_em * bsdf * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord_emit) / (pdflight * emitterRecord.pdf);
+                }
             }
 
             //Sample BSDF
             BSDFQueryRecord bsdfRecord(its.toLocal(-iteRay.d), its.uv);
-            bsdf *= its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+            Color3f bsdf_aux = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+            bsdf *= bsdf_aux;
 
-            float prob = 1 - its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
+            float prob = bsdf_aux.maxCoeff();
             if(sampler->next1D() < 1 - prob){
                 return Le;
             }

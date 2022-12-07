@@ -33,18 +33,17 @@ public:
 
             //Sample BSDF
             BSDFQueryRecord bsdfRecord(its.toLocal(-iteRay.d), its.uv);
-            bsdf *= its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+            Color3f bsdf_aux = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+            bsdf *= bsdf_aux;
 
-            // update ray
-            iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
-
-            float prob = 1 - its.mesh->getBSDF()->eval(bsdfRecord).getLuminance();
-            // update ray
-            iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
+            float prob = bsdf_aux.maxCoeff(); 
+            if(prob >= 1)
+                prob = 0.9;
             if(sampler->next1D() < 1 - prob){
                 return Color3f(0.);
             }
 
+            iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
             bsdf /= prob;
         }
         

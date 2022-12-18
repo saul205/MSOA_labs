@@ -105,6 +105,27 @@ public:
 				classTypeName(obj->getClassType()));
 		}
 	}
+
+	Ray3f trace_ray(Sampler* sampler, Color3f &energy) const override {
+		
+		Point3f p;
+		Normal3f n;
+		Point2f uv;
+		float posPdf, dirPdf;
+		m_mesh->samplePosition(sampler->next2D(), p, n, uv);
+		n.normalize();
+		posPdf = m_mesh->pdf(p);
+		
+		Frame shFrame(n);
+		Vector3f d = Warp::squareToCosineHemisphere(sampler->next2D());
+		d.normalize();
+		dirPdf = Warp::squareToCosineHemispherePdf(d);
+
+		energy = m_radiance->eval(Point2f()) / (posPdf * dirPdf) * abs(n.dot(shFrame.toWorld(d)));
+
+		Ray3f ray(p, shFrame.toWorld(d));
+		return ray;
+	}
 protected:
 	Texture* m_radiance;
 	float m_scale;

@@ -14,6 +14,7 @@
 
 #include <nori/emitter.h>
 #include <nori/bitmap.h>
+#include <nori/frame.h>
 #include <nori/warp.h>
 #include <filesystem/resolver.h>
 #include <fstream>
@@ -94,6 +95,18 @@ public:
 	// WARNING: Use with care. Malformed EmitterQueryRecords can result in undefined behavior. Plus no visibility is considered.
 	virtual float pdf(const EmitterQueryRecord& lRec) const {
 		return Warp::squareToUniformSpherePdf(lRec.wi);
+	}
+
+	Ray3f trace_ray(Sampler* sampler, Color3f &energy) const override {
+		energy = m_radiance;
+
+		Vector3f n = Warp::squareToUniformSphere(sampler->next2D());
+
+		Frame shFrame(n);
+		Vector3f d = Warp::squareToCosineHemisphere(sampler->next2D());
+
+		Ray3f ray(Point3f(INFINITY, INFINITY, INFINITY), shFrame.toWorld(d));
+		return ray;
 	}
 
 

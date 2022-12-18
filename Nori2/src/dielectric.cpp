@@ -19,6 +19,7 @@
 #include <nori/bsdf.h>
 #include <nori/frame.h>
 #include <nori/reflectance.h>
+#include <nori/texture.h>
 
 NORI_NAMESPACE_BEGIN
 
@@ -28,7 +29,7 @@ public:
     Dielectric(const PropertyList &propList) {
         /* Interior IOR (default: BK7 borosilicate optical glass) */
         m_intIOR = propList.getFloat("intIOR", 1.5046f);
-
+        m_color = propList.getColor("albedo", Color3f(1.0f));
         /* Exterior IOR (default: air) */
         m_extIOR = propList.getFloat("extIOR", 1.000277f);
     }
@@ -64,7 +65,7 @@ public:
             else
                 bRec.eta = m_intIOR / m_extIOR;
 
-            return Color3f(bRec.eta);
+            return Color3f(bRec.eta) * m_color;
         }
 
     }
@@ -79,6 +80,7 @@ public:
     }
 private:
     float m_intIOR, m_extIOR;
+    Color3f m_color;
 };
 
 NORI_REGISTER_CLASS(Dielectric, "dielectric");

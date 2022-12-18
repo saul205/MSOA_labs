@@ -44,10 +44,15 @@ public:
                     emPdf = scene->pdfEmitter(emEnv) * emEnv->pdf(emitter_intersection);  
                 }
 
+                auto background = scene->getBackground(iteRay);
+                if(isnan(background.x())){
+                    return Le;
+                }
+
                 // Return accumulated light + 
                 //      Background * bsdf accumulated * weight
                 //  The matPdf comes from bsdf evaluation on previous iteration
-                return Le + scene->getBackground(iteRay) * bsdf 
+                return Le + scene->getBackground(iteRay) * bsdf
                     * (bounce == 0 || isSpecular ? 1 : weight(matPdf, emPdf));
             }
             else if (its.mesh->isEmitter()) {
@@ -104,14 +109,17 @@ public:
             // Russian roulette
             // The probability of the ray dying is 1 - maxCoeff(bsdf)
             // We return light accumulated by direct emitter sampling as this is iterative
-            float prob = bsdf_aux.maxCoeff();
-            if(sampler->next1D() < 1 - prob){
-                return Le;
-            }
+            if(bounce > 3){
 
-            // Account for the russian roulette probs
-            Le += Le_emiter / prob;
-            bsdf = bsdf / prob;
+                float prob = std::min(bsdf_aux.maxCoeff(), 0.95f);
+                if(sampler->next1D() < 1 - prob){
+                    return Le;
+                }
+                
+                Le_emiter /= prob;
+                bsdf = bsdf / prob;
+            }
+            Le += Le_emiter;
 
             // Update ray
             iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));

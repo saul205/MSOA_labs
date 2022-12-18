@@ -69,7 +69,8 @@ void Scene::activate() {
     impSampling = new DiscretePDF(m_emitters.size());
 
     for(auto i : m_emitters){
-        impSampling->append(i->sample(emitterRecord, Point2f(), 0.0f).getLuminance());
+        impSampling->append(i->sample(emitterRecord, Point2f(0, 0), 0.0f).getLuminance());
+        cout << i->sample(emitterRecord, Point2f(0, 0), 0.0f).getLuminance() << " " << i->toString() << endl;
     }
     
     if(!impSampling->isNormalized())
@@ -88,8 +89,8 @@ const Emitter * Scene::sampleEmitter(float rnd, float &pdf) const {
 	return m_emitters[index];
 }
 
-const Emitter * Scene::sampleDirect(float rnd, float &pdf) const {
-    size_t index = impSampling->sample(rnd);
+const Emitter * Scene::sampleDirect(float rnd, float &pdf, int &index) const {
+    index = impSampling->sample(rnd);
 	pdf = (*impSampling)[index];
 	return m_emitters[index];
 }
@@ -97,7 +98,6 @@ const Emitter * Scene::sampleDirect(float rnd, float &pdf) const {
 float Scene::pdfEmitter(const Emitter *em) const {
     return 1. / float(m_emitters.size());
 }
-
 
 void Scene::addChild(NoriObject *obj, const std::string& name) {
     switch (obj->getClassType()) {

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="nori" targetName="Imath" />
+      <config projectName="nori" targetName="toFloat" />
+      <config projectName="nori" targetName="Iex" />
+      <config projectName="nori" targetName="IlmImf-obj" />
+      <config projectName="nori" targetName="CopyIlmBaseLibs" />
+      <config projectName="nori" targetName="glfw" />
+      <config projectName="nori" targetName="tbb_static" />
+      <config projectName="nori" targetName="IexMath" />
+      <config projectName="nori" targetName="IlmThread" />
+      <config projectName="nori" targetName="warptest" />
+      <config projectName="nori" targetName="nanogui-obj" />
+      <config projectName="nori" targetName="tbb_def_files" />
+      <config projectName="nori" targetName="nori" />
+      <config projectName="nori" targetName="dwaLookups" />
+      <config projectName="nori" targetName="b44ExpLogTable" />
+      <config projectName="nori" targetName="pugixml" />
+      <config projectName="nori" targetName="nanogui" />
+      <config projectName="nori" targetName="IlmImf" />
+      <config projectName="nori" targetName="glfw_objects" />
+      <config projectName="nori" targetName="eLut" />
+      <config projectName="nori" targetName="Half" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="848ec0dc-78cd-4bcd-a13c-9745ec92de2b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/include/nori/common.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/include/nori/reflectance.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/cbox_conductors_ems.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/cbox_conductors_mats.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/cbox_mats.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/cbox_substrate_ems.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/cbox_substrate_mats.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/leftwall.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/light.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/rightwall.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/sphere1.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/sphere1_.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/sphere2.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/sphere2_.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/cbox/meshes/walls.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/references/cbox_conductors_ems.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/references/cbox_substrate_ems.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/serapis/envmap.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/serapis/serapis.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/serapis/serapis_rough_ems.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/serapis/serapis_rough_mats.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/serapis/serapis_smooth_ems.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/serapis/serapis_smooth_mats.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/meshes/floor.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/meshes/plate1.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/meshes/plate2.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/meshes/plate3.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/meshes/plate4.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/meshes/sphere.obj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/veach_ems.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/veach_mats.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/scenes/assignment-3/veach_mi/veach_mis.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/src/common.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/src/dielectric.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/src/main.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/src/microfacet.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/patch_P3/src/reflectance.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_2048.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_2048.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_512.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_64.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_64.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_64.png" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_mis_64.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_nee.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_nee.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_path.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_caustics_path.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_mis_512.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_mis_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_mis_64.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_mis_64.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_mis_64.png" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_mis_64.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_1.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_128.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_512.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_64.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_64.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_64.png" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_nee_64.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_path.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_path.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_path.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_path.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_path_512.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_glossy_path_512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_mis_128.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_mis_128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_mis_64.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_mis_64.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_mis_64.png" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_mis_64.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee_128.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee_128.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee_128.png" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee_128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee_64.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_nee_64.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path.exr" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path_128.exr" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path_128.exr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path_128.png" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/cbox/cbox_path_128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/table/table_mis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/table/table_mis.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/table/table_nee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/table/table_nee.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/table/table_path.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/table/table_path.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/veach_mi/veach_mis.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/veach_mi/veach_mis.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/veach_mi/veach_nee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/veach_mi/veach_nee.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/scenes/assignment-4/veach_mi/veach_path.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/scenes/assignment-4/veach_mi/veach_path.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/src/direct_ems.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/src/direct_ems.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/src/mesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/src/mesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/src/path.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/src/path.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/src/path_mis.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/src/path_mis.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Nori2/src/path_nee.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Nori2/src/path_nee.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2022" />
+    <option name="minorVersion" value="3" />
+  </component>
+  <component name="ProjectId" id="2Ip9tBhakPmUQgpJIS8lxl7ykP2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kl4ws/Documents/master/MoSA/MSOA_labs&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager" selected="CMake Application.nori">
+    <configuration name="CopyIlmBaseLibs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="CopyIlmBaseLibs" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Half" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="Half" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Iex" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="Iex" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IexMath" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="IexMath" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IlmImf-obj" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="IlmImf-obj" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IlmImf" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="IlmImf" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="IlmThread" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="IlmThread" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Imath" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="Imath" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="b44ExpLogTable" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="b44ExpLogTable" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="nori" RUN_TARGET_NAME="b44ExpLogTable">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="dwaLookups" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="dwaLookups" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="nori" RUN_TARGET_NAME="dwaLookups">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="eLut" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="eLut" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="nori" RUN_TARGET_NAME="eLut">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="glfw" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="glfw_objects" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="glfw_objects" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="nanogui-obj" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="nanogui-obj" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="nanogui" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="nanogui" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="nori" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$Prompt$" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="nori" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="nori" RUN_TARGET_NAME="nori">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="pugixml" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="pugixml" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_def_files" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="tbb_def_files" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tbb_static" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="tbb_static" CONFIG_NAME="Debug">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="toFloat" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="toFloat" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="nori" RUN_TARGET_NAME="toFloat">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="warptest" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="nori" TARGET_NAME="warptest" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="nori" RUN_TARGET_NAME="warptest">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.nori" />
+      <item itemvalue="CMake Application.warptest" />
+      <item itemvalue="CMake Application.pugixml" />
+      <item itemvalue="CMake Application.nanogui" />
+      <item itemvalue="CMake Application.nanogui-obj" />
+      <item itemvalue="CMake Application.glfw" />
+      <item itemvalue="CMake Application.glfw_objects" />
+      <item itemvalue="CMake Application.CopyIlmBaseLibs" />
+      <item itemvalue="CMake Application.eLut" />
+      <item itemvalue="CMake Application.Half" />
+      <item itemvalue="CMake Application.toFloat" />
+      <item itemvalue="CMake Application.Iex" />
+      <item itemvalue="CMake Application.IexMath" />
+      <item itemvalue="CMake Application.IlmThread" />
+      <item itemvalue="CMake Application.Imath" />
+      <item itemvalue="CMake Application.b44ExpLogTable" />
+      <item itemvalue="CMake Application.dwaLookups" />
+      <item itemvalue="CMake Application.IlmImf" />
+      <item itemvalue="CMake Application.IlmImf-obj" />
+      <item itemvalue="CMake Application.tbb_def_files" />
+      <item itemvalue="CMake Application.tbb_static" />
+    </list>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="848ec0dc-78cd-4bcd-a13c-9745ec92de2b" name="Changes" comment="" />
+      <created>1670867870381</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1670867870381</updated>
+      <workItem from="1670867871788" duration="3848000" />
+      <workItem from="1670874974490" duration="1024000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Nori2/src/path_mis.cpp</url>
+          <line>73</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

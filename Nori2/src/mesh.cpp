@@ -128,9 +128,7 @@ void Mesh::samplePosition(const Point2f &sample, Point3f &p, Normal3f &n, Point2
     const Point3f p0 = m_V.col(i0), p1 = m_V.col(i1), p2 = m_V.col(i2);
 
     //Compute barycentric coordinates
-    Point3f delta{tSample.x(), tSample.y(), rnd};
-
-    delta /= delta.sum();
+    Point3f delta{tSample.x(), tSample.y(), 1 - tSample.x() - tSample.y()};
 
     p = p0 * delta[0] + p1 * delta[1] + p2 * delta[2];
 

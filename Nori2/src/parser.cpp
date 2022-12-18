@@ -83,6 +83,9 @@ NoriObject *loadFromXML(const std::string &filename) {
         ERotate,
         EScale,
         ELookAt,
+        ENumCaustics,
+        ENumPhotons,
+        ENumRays,
 
         EInvalid
     };
@@ -114,6 +117,9 @@ NoriObject *loadFromXML(const std::string &filename) {
     tags["rotate"]     = ERotate;
     tags["scale"]      = EScale;
     tags["lookat"]     = ELookAt;
+    tags["caustics"]     = ENumCaustics;
+    tags["photons"]     = ENumPhotons;
+    tags["rays"]     = ENumRays;
 
     /* Helper function to check if attributes are fully specified */
     auto check_attributes = [&](const pugi::xml_node &node, std::set<std::string> attrs) {

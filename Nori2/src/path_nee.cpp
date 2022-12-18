@@ -25,8 +25,10 @@ public:
 
             if (!scene->rayIntersect(iteRay, its)){
 
-                if(isSpecular || bounce == 0)
+                if(isSpecular || bounce == 0){
+
                     return Le + scene->getBackground(iteRay) * bsdf;
+                }
 
                 return Le;
             }
@@ -40,6 +42,11 @@ public:
 
                 return Le;
             }
+
+            //Sample BSDF
+            BSDFQueryRecord bsdfRecord(its.toLocal(-iteRay.d), its.uv);
+            Color3f bsdf_aux = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
+            isSpecular = bsdfRecord.measure == EDiscrete;
             
             Color3f Le_emiter(0.);
             if(!isSpecular){ // Emitter sampling for NEE
@@ -60,21 +67,21 @@ public:
                 }
             }
 
-            //Sample BSDF
-            BSDFQueryRecord bsdfRecord(its.toLocal(-iteRay.d), its.uv);
-            Color3f bsdf_aux = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
             bsdf *= bsdf_aux;
+            if(bounce > 3){
 
-            float prob = bsdf_aux.maxCoeff();
-            if(sampler->next1D() < 1 - prob){
-                return Le;
+                float prob = std::min(bsdf_aux.maxCoeff(), 0.95f);
+                if(sampler->next1D() < 1 - prob){
+                    return Le;
+                }
+
+                Le_emiter /= prob;
+                bsdf = bsdf / prob;
             }
-
-            Le += Le_emiter / prob;
-            bsdf = bsdf / prob;
+            
+            Le += Le_emiter;
 
             iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
-            isSpecular = bsdfRecord.measure == EDiscrete;
         }
         
         return Le;

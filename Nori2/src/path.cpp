@@ -19,7 +19,7 @@ public:
         Ray3f iteRay(ray);
         Color3f Le(0.);
         Color3f bsdf(1.);
-        while(true){
+        for(int bounce = 0;;++bounce){
 
             if (!scene->rayIntersect(iteRay, its)) //Return environment
                 return scene->getBackground(ray) * bsdf;
@@ -36,15 +36,17 @@ public:
             Color3f bsdf_aux = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
             bsdf *= bsdf_aux;
 
-            float prob = bsdf_aux.maxCoeff(); 
-            if(prob >= 1)
-                prob = 0.9;
-            if(sampler->next1D() < 1 - prob){
-                return Color3f(0.);
+            if(bounce > 3){
+
+                float prob = std::min(bsdf_aux.maxCoeff(), 0.95f);
+                if(sampler->next1D() < 1 - prob){
+                    return Color3f(0.);
+                }
+
+                bsdf = bsdf / prob;
             }
 
             iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
-            bsdf /= prob;
         }
         
         return Lo;

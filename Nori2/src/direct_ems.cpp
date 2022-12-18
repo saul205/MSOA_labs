@@ -24,7 +24,7 @@ public:
         
         float rnd = sampler->next1D();
 
-        const Emitter* emit = scene->sampleDirect(rnd, pdflight);
+        const Emitter* emit = scene->sampleEmitter(rnd, pdflight);
         emitterRecord.emitter = emit;
 
         Color3f Le = emit->sample(emitterRecord, sampler->next2D(), 0.);

@@ -45,21 +45,18 @@ public:
         m_bounces = props.getInteger("max_bounces", 25);
     }
 
-    void preprocess_worker(const Scene *scene, 
-            int n_r, int ind, int max_c, int max_g) {
-        //sample a direction
-        std::unique_ptr<Sampler> sampler(scene->getSampler()->clone());
-        cout << max_c << " " << max_g << endl;
-        //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    void preprocess(const Scene *scene) override {
+
+        std::vector<int> light_count(scene->getLights().size());
+        std::unique_ptr<Sampler> sampler = scene->getSampler()->clone();
         Intersection its;
         bool isCaustic = false;
-        for(int i = 0; i < n_r; ++i){
+        for(int i = 0; i < n_rays; ++i){
             float pdflight = 0;
             int index;
             //select light source
-            
             const Emitter* emit = scene->sampleDirect(sampler->next1D(), pdflight, index);
-            lightCount[ind][index] ++;
+            light_count[index] ++;
             Color3f energy;
             Ray3f ray = emit->trace_ray(sampler.get(), energy);
             energy /= pdflight;
@@ -77,7 +74,7 @@ public:
                 }
                 else if(bounce > 0){
                     Photon photon(its.p, ray.d, energy, its.shFrame.n, index);
-                    storePhoton(photon, isCaustic, caustics[ind], photons[ind], max_c, max_g);
+                    storePhoton(photon, isCaustic);
                     isCaustic = false;
                 }
 
@@ -92,54 +89,10 @@ public:
                 ray = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
             }
 
-            if(caustics[ind].size() >= max_c && photons[ind].size() >= max_g)
-                n_r = i;
-        }
-    }
-
-    void preprocess(const Scene *scene) override {
-
-        int n_threads = 16;
-
-        lightCount = std::vector<std::vector<long long int>>(n_threads, std::vector<long long int>(scene->getLights().size()));
-        caustics = std::vector<std::vector<Photon>>(n_threads, std::vector<Photon>());
-        photons = std::vector<std::vector<Photon>>(n_threads, std::vector<Photon>());
-
-        cout << lightCount.size() << endl;
-        //sample a direction
-        
-        std::vector<thread> threads;
-
-        for(int i = 0; i < n_threads; i++){
-
-            threads.push_back(thread( [this, i, scene, n_threads] 
-                {preprocess_worker(scene, n_rays / n_threads, i, max_caustics / n_threads, max_global / n_threads); }));
+            if(m_caustics.size() >= max_caustics && m_photons.size() >= max_global)
+                n_rays = i;
         }
 
-        for(int i = 0; i < n_threads; i++){
-            threads[i].join();
-        }
-
-        // Merge lists
-        std::vector<long long int> light_count(scene->getLights().size());
-        for(int i = 0; i < n_threads; i++){
-
-            for(int j = 0; j < lightCount[i].size(); j++){
-                light_count[j] += lightCount[i][j];
-            }
-
-            for(auto ph : caustics[i]){
-                m_caustics.push_back(ph);
-            }
-
-            for(auto ph : photons[i]){
-                m_photons.push_back(ph);
-            }
-        }
-
-        caustics.clear();
-        photons.clear();
-        lightCount.clear();
 
         cout << m_caustics.size() << " " << m_photons.size() << " " << n_rays << endl;
         cout << light_count[0] << " " << light_count[1] << endl;
@@ -152,20 +105,12 @@ public:
             tree_caustics.store(std::vector<float>{ph.p[0], ph.p[1], ph.p[2]}, ph);
         }
 
-        int a = m_caustics.size();
-        int b = m_photons.size();
-
-        m_caustics.clear();
-        m_photons.clear();
-
-        if (a != 0) {
+        if (m_caustics.size() != 0) {
             tree_caustics.balance();
         }
-        if (b != 0) {
+        if (m_photons.size() != 0) {
             tree_global.balance();
         }
-
-        cout << "AA" << endl;
     }
 
     Color3f Li(const Scene* scene, Sampler* sampler, const Ray3f &ray) const
@@ -332,11 +277,11 @@ public:
     }
 
 private:
-    void storePhoton(Photon ph, bool isCaustic, std::vector<Photon> &caustics, std::vector<Photon> &photons, int max_c, int max_g){
-        if(isCaustic && caustics.size() < max_c)
-            caustics.push_back(ph);
-        else if(!isCaustic && photons.size() < max_g)
-            photons.push_back(ph);
+    void storePhoton(Photon ph, bool isCaustic){
+        if(isCaustic && m_caustics.size() < max_caustics)
+            m_caustics.push_back(ph);
+        else if(!isCaustic && m_photons.size() < max_global)
+            m_photons.push_back(ph);
     }
 
         
@@ -346,13 +291,9 @@ private:
     KDTree<Photon, 3U> tree_global;
     KDTree<Photon, 3U> tree_caustics;
 
-    std::vector<std::vector<Photon>> caustics;
-    std::vector<std::vector<Photon>> photons;
-    std::vector<std::vector<long long int>> lightCount;
-
-    long long int n_rays;
-    long long int max_caustics; 
-    long long int max_global;
+    int n_rays;
+    int max_caustics; 
+    int max_global;
     int m_bounces;
 
 };

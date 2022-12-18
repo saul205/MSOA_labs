@@ -103,6 +103,7 @@ public:
      */
     virtual Color3f sample(EmitterQueryRecord &lRec, const Point2f &sample, float optional_u) const = 0;
 
+    virtual Ray3f trace_ray(Sampler* sampler, Color3f &energy) const = 0;
     /**
      * \brief Compute the probability of sampling \c lRec.p.
      *

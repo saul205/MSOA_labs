@@ -22,6 +22,7 @@
 #pragma once
 
 #include <nori/accel.h>
+#include <nori/photon.h>
 #include <random>
 
 NORI_NAMESPACE_BEGIN
@@ -71,7 +72,7 @@ public:
 	/// Sample emitter
 	const Emitter *sampleEmitter(float rnd, float &pdf) const;
 
-    const Emitter *sampleDirect(float rnd, float &pdf) const;
+    const Emitter *sampleDirect(float rnd, float &pdf, int &index) const;
 
     float pdfEmitter(const Emitter *em) const;
 

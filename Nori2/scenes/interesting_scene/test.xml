@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene>
+	<integrator type="path_mis"/>
+
+	<camera type="perspective">
+		<float name="fov" value="45"/>
+		<transform name="toWorld">
+			<scale value="-1,1,1"/>
+			<lookat target="0, 0, 0" origin="0, 30, 100" up="0, 1, 0"/> <!-- 16, 50-->
+		</transform>
+
+		<integer name="height" value="600"/>
+		<integer name="width" value="800"/>
+	</camera>
+
+	<sampler type="independent">
+		<integer name="sampleCount" value="64"/>
+	</sampler>
+
+	<mesh type="obj">
+		<string name="filename" value="fantasy-dragon-obj/Fantasy Dragon.obj"/>
+		<transform name="toWorld">
+			<scale value="0.01, 0.01, 0.01"/>
+			<translate value="0, -20, 20"/>
+			<rotate angle="90" axis="-1, 0, 0"/>
+		</transform>
+
+
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.161 0.133 0.427"/>
+		</bsdf>
+	</mesh>
+
+	<mesh type="obj">
+		<string name="filename" value="metal-table-obj/Metal table.obj"/>
+		<transform name="toWorld">
+			<scale value="0.05, 0.05, 0.05"/>
+			<translate value="0, -40, 0"/>
+			<rotate angle="90" axis="-1, 0, 0"/>
+		</transform>
+
+
+		<bsdf type="roughconductor">
+			<color name="R0" value="0.91 0.92 0.92"/>
+			<float name="alpha" value="0.3"/>
+		</bsdf>
+	</mesh>
+
+	<emitter type="environment">
+      <string name="filename" value="envmap.exr"/>
+	  <float name ="rotate" value="180"/>
+	  <color name ="radiance" value="200,200,200"/>
+	</emitter>
+</scene>

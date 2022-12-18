@@ -123,7 +123,6 @@ class BlockGenerator;
 class Camera;
 class ImageBlock;
 class Integrator;
-class KDTree;
 class Emitter;
 struct EmitterQueryRecord;
 class Mesh;

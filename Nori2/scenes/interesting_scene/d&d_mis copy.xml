@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene>
+	<integrator type="path_mis"/>
+
+	<camera type="perspective">
+		<float name="fov" value="50"/>
+		<transform name="toWorld">
+			<scale value="1,1,1"/>
+			<lookat target="0, 20, 0" origin="100, 140, -350" up="0, 1, 0"/> <!-- 16, 50-->
+		</transform>
+
+		<integer name="height" value="720"/>
+		<integer name="width" value="1280"/>
+	</camera>
+
+	<sampler type="independent">
+		<integer name="sampleCount" value="64"/>
+	</sampler>
+
+	<mesh type="obj">
+		<string name="filename" value="meshes/floor.obj"/>
+
+		<!--<bsdf type="roughconductor">
+			<color name="R0" value="0.19 0.32 0.48"/>
+			<float name="alpha" value="0.1"/>
+		</bsdf>-->
+
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.10 0.10 0.03"/>
+		</bsdf>
+	</mesh>
+
+	<mesh type="obj">
+		<string name="filename" value="../../../blender/dragon.obj"/>
+
+		<bsdf type="dielectric"/>
+	</mesh>
+
+	<mesh type="obj">
+		<string name="filename" value="../../../blender/orc.obj"/>
+
+		<bsdf type="dielectric"/>
+	</mesh>
+
+	<mesh type="obj">
+		<string name="filename" value="../../../blender/mage.obj"/>
+
+		<bsdf type="dielectric"/>
+	</mesh>
+
+	<mesh type="obj">
+		<string name="filename" value="../../../blender/ranger.obj"/>
+
+		<bsdf type="dielectric"/>
+	</mesh>
+
+	<mesh type="obj">
+		<string name="filename" value="../../../blender/mirror.obj"/>
+
+		<bsdf type="mirror"/>
+	</mesh>
+
+	<emitter type="environment">
+      <string name="filename" value="envmap.exr"/>
+	  <float name ="rotate" value="180"/>
+	  <color name ="radiance" value="100,100,100"/> 
+	</emitter>
+</scene>

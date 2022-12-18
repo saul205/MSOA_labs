@@ -1,0 +1,73 @@
+<?xml version="1.0" ?>
+<scene>
+	<integrator type="photon_mapper">
+		<integer name="rays" value="100000000"/>
+		<integer name="caustics" value="10000000"/>
+		<integer name="photons" value="10000000"/>
+		<integer name="max_bounces" value="100"/>
+	</integrator>
+	<sampler type="independent">
+		<integer name="sampleCount" value="32"/>
+	</sampler>
+	<camera type="perspective">
+		<float name="fov" value="61.197757302883886"/>
+		<float name="nearClip" value="0.10000000149011612"/>
+		<float name="farClip" value="316.1999816894531"/>
+		<integer name="width" value="1920"/>
+		<integer name="height" value="1080"/>
+		<transform name="toWorld">
+			<matrix value="0.3245620131492615,-0.001127246767282486,-0.0043898350559175014,-0.35460400581359863,1.2276258587462507e-07,0.314395934343338,-0.08072330057621002,0.3908943831920624,0.00453225476667285,0.08071543276309967,0.31436529755592346,-2.452899932861328,0.0,0.0,0.0,1.0"/>
+		</transform>
+	</camera>
+	<mesh type="obj">
+		<string name="filename" value="meshes/ArmoredWarrior_SwordDoubleHanded.obj"/>
+		<bsdf type="roughsubstrate">
+			<float name="alpha" value="0.1"/>
+			<color name="kd" value="0.2 0.2 0.9" />
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/wyvern.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="1, 0.05, 0.2"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/dragon_egg.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="0.89, 0.76, 0.22"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/WyvernTower.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.8, 0.8, 0.8"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/Plane.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.004, 0.196, 0.125"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/Plane.001.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.75,0.75,0.75"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/Plane.002.obj"/>
+		<emitter type="area">
+			<color name="radiance" value="5 5 5"/>
+		</emitter>
+	</mesh>
+	<emitter type="spotlight">
+		<color name="radiance" value="5 5 5"/>
+		<point name="position" value="1.3, 1, 0.6"/>
+		<transform name="toWorld">
+			<lookat target="-2.3, -0.268277, -1.4" origin="1.3, 1, 0.6" up="0, 1, 0"/>
+		</transform>
+		<float name="distance" value="5"/>
+	</emitter>
+</scene>

@@ -69,6 +69,9 @@ public:
      * */
     EClassType getClassType() const { return ECamera; }
 protected:
+
+    float m_aperture, m_focalDistance;
+
     Vector2i m_outputSize;
     ReconstructionFilter *m_rfilter;
 };

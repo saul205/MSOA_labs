@@ -26,9 +26,7 @@ Process:
     - Add caustics visible on the first pass
 
 Doubts: 
-    - Can we use more than 1 bounce when rendering
-        - If that is the case, can we average path tracing and pm to obtain smoother results
-    - Can we not use the global map?
+    - Luminance of point lights
 
 */
 
@@ -72,7 +70,7 @@ public:
                 if(bsdfRecord.measure == EDiscrete){
                     isCaustic = true;
                 }
-                else if(bounce > 0){
+                else if(bounce >= 0){
                     Photon photon(its.p, ray.d, energy, its.shFrame.n, index);
                     storePhoton(photon, isCaustic);
                     isCaustic = false;
@@ -181,7 +179,7 @@ public:
                     Le_emiter = Le_em * bsdf * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord_emit) //* weight(emPdf, matPdf_emit)
                         / (pdflight * emitterRecord.pdf);
 
-                    return estimate_radiance(its) * bsdf_aux * bsdf + Le_emiter;
+                    return estimate_radiance(its) * bsdf_aux * bsdf;// + Le_emiter;
                 }
                 
                 // Accumulate bsdf for the different bounces / iterations
@@ -223,7 +221,6 @@ public:
 
         Color3f L{0.};
         float dist = 0.001, dist_caustics = 0.001;
-        int progressive_pass = 1;
 
         std::vector<const KDTree<Photon, 3>::Node*> nodes;
         tree_caustics.find(std::vector<float>{its.p[0], its.p[1], its.p[2]}, 100, nodes, dist_caustics);
@@ -232,7 +229,6 @@ public:
             if((*it)->data().n.dot(its.shFrame.n) >= 0.7)
                 L += kernel_gaussian((*it)->data(), its, dist_caustics);
         }
-        int n_ph_c = nodes.size();
 
         
         tree_global.find(std::vector<float>{its.p[0], its.p[1], its.p[2]}, 100, nodes, dist);
@@ -242,34 +238,10 @@ public:
                 L += kernel_gaussian((*it)->data(), its, dist);
         }
 
-        float delta = 0.6;
-        int n_ph = nodes.size();
+        if(!L.isValid())
+            return Color3f(0.);
 
-        for(int i = 1; i < progressive_pass; i++){
-
-            //Compute the radiance given a kernel
-            std::list<const KDTree<Photon, 3>::Node*> nodes;
-            tree_caustics.find(std::vector<float>{its.p[0], its.p[1], its.p[2]}, dist_caustics, &nodes);
-            for(auto it = nodes.begin(); it != nodes.end(); ++it){
-                if((*it)->data().n.dot(its.shFrame.n) >= 0.7)
-                    L += kernel_gaussian((*it)->data(), its, dist_caustics);
-            }
-
-            int m_ph_c = nodes.size();
-
-            tree_global.find(std::vector<float>{its.p[0], its.p[1], its.p[2]}, dist, &nodes);
-            for(auto it = nodes.begin(); it != nodes.end(); ++it){
-                if((*it)->data().n.dot(its.shFrame.n) >= 0.7)
-                    L += kernel_gaussian((*it)->data(), its, dist);
-            }
-
-            int m_ph = nodes.size();
-
-            dist *= sqrt( (n_ph + delta * m_ph) / (n_ph + m_ph));
-            dist_caustics *= sqrt((n_ph_c + delta * m_ph_c) / (n_ph_c + m_ph_c));
-        }
-
-        return L / progressive_pass;
+        return L;
     }
     std::string toString() const
     {

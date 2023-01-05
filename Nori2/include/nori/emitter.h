@@ -148,6 +148,8 @@ public:
 
 	bool isDelta() const { return m_type == EmitterType::EMITTER_POINT; }
 
+    virtual Color3f getRadiance() = 0;
+
 protected:
     /// Pointer to the mesh if the emitter is attached to a mesh
     Mesh * m_mesh = nullptr;

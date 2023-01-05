@@ -69,8 +69,8 @@ void Scene::activate() {
     impSampling = new DiscretePDF(m_emitters.size());
 
     for(auto i : m_emitters){
-        impSampling->append(i->sample(emitterRecord, Point2f(0, 0), 0.0f).getLuminance());
-        cout << i->sample(emitterRecord, Point2f(0, 0), 0.0f).getLuminance() << " " << i->toString() << endl;
+        impSampling->append(i->getRadiance().getLuminance());
+        cout << i->getRadiance().getLuminance() << endl;
     }
     
     if(!impSampling->isNormalized())

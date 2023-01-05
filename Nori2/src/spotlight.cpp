@@ -87,6 +87,10 @@ public:
 		return ray;
 	}
 
+    Color3f getRadiance() override {
+		return m_radiance;
+	}
+
 protected:
     Point3f m_position;
     Color3f m_radiance;

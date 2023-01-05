@@ -109,6 +109,10 @@ public:
 		return ray;
 	}
 
+	Color3f getRadiance() override {
+		return m_radiance;
+	}
+
 
 	// Get the parent mesh
 	void setParent(NoriObject* parent)

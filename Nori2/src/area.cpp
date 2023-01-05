@@ -106,6 +106,10 @@ public:
 		}
 	}
 
+	Color3f getRadiance() override {
+		return m_radiance->eval(Point2f(0.f));
+	}
+
 	Ray3f trace_ray(Sampler* sampler, Color3f &energy) const override {
 		
 		Point3f p;

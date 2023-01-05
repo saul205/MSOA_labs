@@ -40,7 +40,7 @@ public:
         lRec.pdf = 1.;
         // Note that here it is assumed perfect visibility; this means
         // that visibility should be taken care of in the integrator.
-        return m_radiance / (lRec.dist);
+        return m_radiance / (lRec.dist*lRec.dist);
     } // Note that the pdf should be infinite, but for numerical reasons
     // it is more convenient to just leave as 1
     virtual float pdf(const EmitterQueryRecord &lRec) const
@@ -57,6 +57,10 @@ public:
 
 		Ray3f ray(m_position, d);
 		return ray;
+	}
+
+    Color3f getRadiance() override {
+		return m_radiance;
 	}
 
 protected:

@@ -47,6 +47,9 @@ public:
         m_nearClip = propList.getFloat("nearClip", 1e-4f);
         m_farClip = propList.getFloat("farClip", 1e4f);
 
+        m_aperture = propList.getFloat("aperture", 1.f);
+        m_focalDistance = propList.getFloat("focalDistance", 1.f);
+
         m_rfilter = NULL;
     }
 
@@ -99,8 +102,22 @@ public:
         Vector3f d = nearP.normalized();
         float invZ = 1.0f / d.z();
 
-        ray.o = m_cameraToWorld * Point3f(0, 0, 0);
-        ray.d = m_cameraToWorld * d;
+        ray.o = Point3f(0, 0, 0);
+        ray.d = d;
+        
+        if(m_aperture > 0){
+            
+            Point2f sample = Point2f(static_cast<float>(rand()) / static_cast<float>(RAND_MAX), static_cast<float>(rand()) / static_cast<float>(RAND_MAX));
+            Point2f pLens = m_aperture * Warp::squareToUniformDisk(sample);
+            float ft = m_focalDistance * invZ;
+            Point3f pFocus = ray(ft);
+
+            ray.o = Point3f(pLens.x(), pLens.y(), 0);
+            ray.d = (pFocus - ray.o).normalized();
+        }
+
+        ray.o = m_cameraToWorld * ray.o;
+        ray.d = m_cameraToWorld * ray.d;
         ray.mint = m_nearClip * invZ;
         ray.maxt = m_farClip * invZ;
         ray.update();

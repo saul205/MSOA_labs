@@ -2,12 +2,12 @@
 <scene>
 	<integrator type="photon_mapper">
 		<integer name="rays" value="1000000000"/>
-		<integer name="caustics" value="5000000"/>
-		<integer name="photons" value="5000000"/>
+		<integer name="caustics" value="10000000"/>
+		<integer name="photons" value="0"/>
 		<integer name="max_bounces" value="20"/>
 	</integrator>
 	<sampler type="independent">
-		<integer name="sampleCount" value="20"/>
+		<integer name="sampleCount" value="1024"/>
 	</sampler>
 	<camera type="perspective">
 		<float name="fov" value="61.197757302883886"/>
@@ -18,15 +18,40 @@
 		<transform name="toWorld">
 			<matrix value="0.3245620131492615,-0.001127246767282486,-0.0043898350559175014,-0.35460400581359863,1.2276258587462507e-07,0.314395934343338,-0.08072330057621002,0.3908943831920624,0.00453225476667285,0.08071543276309967,0.31436529755592346,-2.452899932861328,0.0,0.0,0.0,1.0"/>
 		</transform>
-		<float name="aperture" value="0.06"/>
-		<float name="focalDistance" value="4.35"/>
+		<float name="aperture" value="0.065"/>
+		<float name="focalDistance" value="4.4"/>
 	</camera>
+	<!--#region castle-->
 	<mesh type="obj">
-		<string name="filename" value="meshes/Castle OBJ.obj"/>
+		<string name="filename" value="meshes/castle.obj"/>
 		<bsdf type="diffuse">
 			<color name="albedo" value="0.8, 0.8, 0.8"/>
 		</bsdf>
 	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/door.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.6, 0.2, 0.02"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/roofs.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.9, 0.37, 0.05"/>
+		</bsdf>
+	</mesh>
+	<!--<mesh type="obj">
+		<string name="filename" value="meshes/bad_walls.obj"/>
+		<bsdf type="diffuse">
+			<color name="albedo" value="0.8, 0.8, 0.8"/>
+		</bsdf>
+	</mesh>-->
+	<mesh type="obj">
+		<string name="filename" value="meshes/windows.obj"/>
+		<bsdf type="mirror"/>
+	</mesh>
+	<!--#endregion castle-->
+	<!--#region planes-->
 	<mesh type="obj">
 		<string name="filename" value="meshes/Plane.003.obj"/>
 		<bsdf type="diffuse">
@@ -46,19 +71,6 @@
 		</bsdf>
 	</mesh>
 	<mesh type="obj">
-		<string name="filename" value="meshes/ArmoredWarrior_SwordDoubleHanded.obj"/>
-		<bsdf type="roughsubstrate">
-			<float name="alpha" value="0.1"/>
-			<color name="kd" value="0.2 0.2 0.9" />
-		</bsdf>
-	</mesh>
-	<mesh type="obj">
-		<string name="filename" value="meshes/low_drogon-scaled.obj"/>
-		<bsdf type="dielectric">
-			<color name="albedo" value="1, 0.2, 0.4"/>
-		</bsdf>
-	</mesh>
-	<mesh type="obj">
 		<string name="filename" value="meshes/Plane.obj"/>
 		<bsdf type="diffuse">
 			<color name="albedo" value="0.1, 0.3, 0.15"/>
@@ -70,11 +82,45 @@
 			<color name="albedo" value="0.07,0.1,0.4"/>
 		</bsdf>
 	</mesh>
+	<!--#endregion planes-->
+	<!--#region figures-->
 	<mesh type="obj">
-		<string name="filename" value="meshes/Plane.002.obj"/>
-		<emitter type="area">
-			<color name="radiance" value="1 1 1"/>
-		</emitter>
+		<string name="filename" value="meshes/ArmoredWarrior_SwordDoubleHanded.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="0.4, 0.2, 1"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/ranger.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="0.4, 1, 0.4"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/mage.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="1, 0.6, 0.16"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/rogue.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="0.6, 0.16, 1"/>
+		</bsdf>
+	</mesh>
+	<mesh type="obj">
+		<string name="filename" value="meshes/minotaur.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="0.8, 1, 0.2"/>
+		</bsdf>
+	</mesh>
+
+
+	<mesh type="obj">
+		<string name="filename" value="meshes/low_drogon-scaled.obj"/>
+		<bsdf type="dielectric">
+			<color name="albedo" value="1, 0.2, 0.4"/>
+		</bsdf>
 	</mesh>
 	<mesh type="obj">
 		<string name="filename" value="meshes/Dragon_Egg.obj"/>
@@ -82,22 +128,27 @@
 			<color name="albedo" value="0.89, 0.76, 0.22"/>
 		</bsdf>
 	</mesh>
+	<!--#endregion figures-->
 	<mesh type="obj">
 		<string name="filename" value="meshes/table.obj"/>
 		<bsdf type="diffuse">
 			<color name="albedo" value="0.75, 0.75, 0.75"/>
 		</bsdf>
 	</mesh>
-	<mesh type="obj">
-		<string name="filename" value="meshes/windows.obj"/>
-		<bsdf type="mirror"/>
-	</mesh>
+	<!--#region lights-->
 	<emitter type="spotlight">
-		<color name="radiance" value="3, 3, 3"/>
+		<color name="radiance" value="5, 5, 5"/>
 		<point name="position" value="1., 1.0 ,0.1"/>
 		<transform name="toWorld">
 			<lookat target="-0.2 ,-0.233632 ,-1" origin="1. ,1.0 ,0.1" up="0, 1, 0"/>
 		</transform>
 		<float name="distance" value="3.5"/>
 	</emitter>
+	<!--<mesh type="obj">
+		<string name="filename" value="meshes/Plane.002.obj"/>
+		<emitter type="area">
+			<color name="radiance" value="2 2 2"/>
+		</emitter>
+	</mesh>-->
+	<!--#endregion lights-->
 </scene>

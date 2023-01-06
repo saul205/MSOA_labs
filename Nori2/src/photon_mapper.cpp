@@ -70,7 +70,7 @@ public:
                 if(bsdfRecord.measure == EDiscrete){
                     isCaustic = true;
                 }
-                else if(bounce >= 0){
+                else if(bounce > 0){
                     Photon photon(its.p, ray.d, energy, its.shFrame.n, index);
                     storePhoton(photon, isCaustic);
                     isCaustic = false;
@@ -145,20 +145,19 @@ public:
                 Color3f bsdf_aux = its.mesh->getBSDF()->sample(bsdfRecord, sampler->next2D());
                 isSpecular = bsdfRecord.measure == EDiscrete;
                 
-                
                 // If its not specular, sample a light source
                 // The reason is that direct sampling an emitter doesn't make sense with specular materials
                 // as the probability of sampling that direction is approximated to 0
                 Color3f Le_emiter(0.);
+                Color3f est_rad(0.f);
                 if(!isSpecular){ // Emitter sampling
                     
                     float pdflight;
+                    int index;
                     EmitterQueryRecord emitterRecord(its.p);
-                    const Emitter* emit = scene->sampleEmitter(sampler->next1D(), pdflight);
+                    const Emitter* emit = scene->sampleDirect(sampler->next1D(), pdflight, index);
                     emitterRecord.emitter = emit;
                     Color3f Le_em = emit->sample(emitterRecord, sampler->next2D(), 0.);
-
-                    
 
                     // Visibility check
                     Ray3f sray(its.p, emitterRecord.wi);
@@ -179,14 +178,28 @@ public:
                     Le_emiter = Le_em * bsdf * its.shFrame.n.dot(emitterRecord.wi) * its.mesh->getBSDF()->eval(bsdfRecord_emit) //* weight(emPdf, matPdf_emit)
                         / (pdflight * emitterRecord.pdf);
 
-                    return estimate_radiance(its) * bsdf_aux * bsdf;// + Le_emiter;
+                    est_rad = estimate_radiance(its);
                 }
                 
                 // Accumulate bsdf for the different bounces / iterations
                 bsdf *= bsdf_aux;
-                
                 // Russian roulette
                 // The probability of the ray dying is 1 - maxCoeff(bsdf)
+                if(bounce > 3){
+
+                    float prob = std::min(bsdf_aux.maxCoeff(), 0.95f);
+                    if(sampler->next1D() < 1 - prob){
+                        return Le;
+                    }
+                    
+                    Le_emiter /= prob;
+                    bsdf = bsdf / prob;
+                    est_rad /= prob;
+                }
+
+                Le += Le_emiter + est_rad * bsdf;
+
+
                 // We return light accumulated by direct emitter sampling as this is iterative
                 // Update ray
                 iteRay = Ray3f(its.p, its.toWorld(bsdfRecord.wo));
